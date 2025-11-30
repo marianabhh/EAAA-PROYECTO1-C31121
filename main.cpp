@@ -267,7 +267,19 @@ private:
         }
     }
 
-    void handleShowPattern(){}
+    void handleShowPattern(){
+        uint8_t s = pm.get(index);
+        leds.on(s);
+        delay(300);
+        leds.offAll();
+        delay(200);
+        index++;
+        if(index >= pm.length()){
+            index = 0;
+            state = State::WAIT_INPUT;
+        }
+    }
+
     void handleWaitInput(){}
     void handleGameOver(){}
 };
