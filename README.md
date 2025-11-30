@@ -1,0 +1,1 @@
+Los commits del repositorio aparecen con pocos minutos de diferencia entre sí porque corresponden a las distintas versiones del archivo que fui guardando localmente durante el desarrollo. Cada commit refleja una etapa incremental del avance, desde la estructura base del sketch hasta la implementación de las clases, la máquina de estados y la integración final del sistema.
