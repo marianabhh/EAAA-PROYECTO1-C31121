@@ -259,7 +259,14 @@ public:
     void begin(){}
     void loop(){}
 private:
-    void handleIdle(){}
+    void handleIdle(){
+        if(buttons.anyRisingEdge() != 0xFF){
+            pm.reset();
+            pm.addStep();
+            state = State::SHOW_PATTERN;
+        }
+    }
+
     void handleShowPattern(){}
     void handleWaitInput(){}
     void handleGameOver(){}
