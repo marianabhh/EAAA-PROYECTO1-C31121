@@ -18,6 +18,46 @@ LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
 // Puntos necesarios para ganar
 const uint8_t WIN_SCORE = 10;
 
-void setup() {}
+// Clases para los componentes de hardware :)
+
+class LEDDriver {
+public:
+    LEDDriver(const uint8_t* pins, uint8_t count) : pins_(pins), count_(count) {}
+
+    void begin() {
+        for (uint8_t i = 0; i < count_; ++i) {
+            pinMode(pins_[i], OUTPUT);
+            digitalWrite(pins_[i], LOW);
+        }
+    }
+
+    void on(uint8_t idx) {
+        if (idx < count_) digitalWrite(pins_[idx], HIGH);
+    }
+
+    void off(uint8_t idx) {
+        if (idx < count_) digitalWrite(pins_[idx], LOW);
+    }
+
+    void offAll() {
+        for (uint8_t i = 0; i < count_; ++i) {
+            digitalWrite(pins_[i], LOW);
+        }
+    }
+
+    uint8_t count() const { return count_; }
+
+private:
+    const uint8_t* pins_;
+    uint8_t count_;
+};
+
+// Instancias globales
+
+LEDDriver      leds(LED_PINS, 4);
+
+void setup() {
+    leds.begin();
+}
 
 void loop() {}
