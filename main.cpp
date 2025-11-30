@@ -280,7 +280,50 @@ private:
         }
     }
 
-    void handleWaitInput(){}
+    void handleWaitInput() {
+        uint8_t btn = buttons_.anyRisingEdge();
+        if (btn == 0xFF) return;
+
+        leds_.on(btn);
+        buzzer_.click(btn);
+        delay(120);
+        leds_.off(btn);
+
+        if (btn == pm_.getStep(indexInput_)) {
+            ++indexInput_;
+            if (indexInput_ >= pm_.length()) {
+                // ronda completa
+                score_ = pm_.length();
+                if (score_ > highScore_) {
+                    highScore_ = score_;
+                }
+
+                // ganó?
+                if (score_ >= WIN_SCORE) {
+                    won_ = true;
+                    buzzer_.success();
+                    display_.showWin(score_, highScore_);
+                    changeState(State::GAME_OVER);
+                    return;
+                }
+
+                level_++;
+                pm_.addStep();
+                indexPattern_ = 0;
+                ledOn_ = false;
+                display_.showLevel(level_, highScore_);
+                changeState(State::SHOW_PATTERN);
+            }
+        } else {
+            // Falló
+            won_ = false;
+            buzzer_.fail();
+            display_.showGameOver(score_, highScore_);
+            changeState(State::GAME_OVER);
+        }
+    }
+    }
+
     void handleGameOver(){}
 };
 
