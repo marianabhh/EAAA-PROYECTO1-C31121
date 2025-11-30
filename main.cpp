@@ -113,14 +113,52 @@ private:
     bool edge_[4];
 };
 
+class Buzzer {
+public:
+    explicit Buzzer(uint8_t pin) : pin_(pin) {}
+
+    void begin() {
+        pinMode(pin_, OUTPUT);
+        digitalWrite(pin_, LOW);
+    }
+
+    void beep(uint16_t ms, unsigned int freq) {
+        tone(pin_, freq, ms);
+    }
+
+    void click(uint8_t idx) {
+        static const unsigned int tones[4] = {800, 950, 1100, 1250};
+        if (idx < 4) beep(120, tones[idx]);
+    }
+
+    void success() {
+        beep(150, 1500);
+        delay(50);
+        beep(150, 1800);
+        delay(50);
+        beep(200, 2000);
+    }
+
+    void fail() {
+        beep(300, 300);
+        delay(100);
+        beep(250, 200);
+    }
+
+private:
+    uint8_t pin_;
+};
+
 // Instancias globales
 
 LEDDriver      leds(LED_PINS, 4);
 ButtonReader buttons(BUTTON_PINS,4);
+Buzzer buzzer(BUZZER_PIN);
 
 void setup() {
     leds.begin();
     buttons.begin();
+    buzzer.begin();
 }
 
 void loop() {}
