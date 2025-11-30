@@ -324,7 +324,33 @@ private:
     }
     }
 
-    void handleGameOver(){}
+void handleGameOver() {
+    unsigned long now = millis();
+
+    // Parpadeo distinto si ganó o perdió
+    if (won_) {
+        // Parpadeo más lento
+        if ((now / 400) % 2 == 0) {
+            for (uint8_t i = 0; i < leds_.count(); ++i) leds_.on(i);
+        } else {
+            leds_.offAll();
+        }
+    } else {
+        // Parpadeo rápido de "fail"
+        if ((now / 200) % 2 == 0) {
+            for (uint8_t i = 0; i < leds_.count(); ++i) leds_.on(i);
+        } else {
+            leds_.offAll();
+        }
+    }
+
+    // Pulsar cualquier botón para volver a IDLE
+    if (buttons_.anyRisingEdge() != 0xFF) {
+        leds_.offAll();
+        display_.showPressToStart();
+        changeState(State::IDLE);
+    }
+}
 };
 
 // Instancias globales
