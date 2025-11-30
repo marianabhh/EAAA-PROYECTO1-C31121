@@ -242,6 +242,28 @@ private:
     uint8_t pattern_[50];
 };
 
+// FSM DEL JUEGO
+
+enum class State {
+    IDLE,
+    SHOW_PATTERN,
+    WAIT_INPUT,
+    GAME_OVER
+  };
+
+class GameController {
+public:
+    GameController(...)
+    {}
+
+    void begin(){}
+    void loop(){}
+private:
+    void handleIdle(){}
+    void handleShowPattern(){}
+    void handleWaitInput(){}
+    void handleGameOver(){}
+};
 
 // Instancias globales
 
