@@ -206,6 +206,43 @@ public:
     }
 };
 
+class PatternManager {
+public:
+    PatternManager(uint8_t colors, uint8_t maxLen = 50)
+      : colors_(colors), maxLen_(maxLen), length_(0) {}
+
+    void begin() {
+        length_ = 0;
+        randomSeed(analogRead(0));
+    }
+
+    void reset() {
+        length_ = 0;
+    }
+
+    void addStep() {
+        if (length_ < maxLen_) {
+            pattern_[length_] = (uint8_t)random(0, colors_);
+            ++length_;
+        }
+    }
+
+    uint8_t getStep(uint8_t idx) const {
+        return pattern_[idx];
+    }
+
+    uint8_t length() const {
+        return length_;
+    }
+
+private:
+    uint8_t colors_;
+    uint8_t maxLen_;
+    uint8_t length_;
+    uint8_t pattern_[50];
+};
+
+
 // Instancias globales
 
 LEDDriver      leds(LED_PINS, 4);
