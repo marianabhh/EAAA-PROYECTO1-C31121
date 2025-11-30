@@ -149,16 +149,75 @@ private:
     uint8_t pin_;
 };
 
+class DisplayLCD {
+public:
+    void begin() {
+        lcd.begin(16, 2);
+        lcd.clear();
+    }
+
+    void showWelcome(int highScore) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("SIMON DICE");
+        lcd.setCursor(0, 1);
+        lcd.print("High: ");
+        lcd.print(highScore);
+    }
+
+    void showLevel(uint8_t level, int highScore) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Nivel: ");
+        lcd.print(level);
+        lcd.setCursor(0, 1);
+        lcd.print("High: ");
+        lcd.print(highScore);
+    }
+
+    void showGameOver(int score, int highScore) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Game Over");
+        lcd.setCursor(0, 1);
+        lcd.print("You: ");
+        lcd.print(score);
+        lcd.print(" H:");
+        lcd.print(highScore);
+    }
+
+    void showPressToStart() {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Presiona un boton");
+        lcd.setCursor(0, 1);
+        lcd.print("para iniciar");
+    }
+
+    void showWin(int score, int highScore) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("!GANASTE!");
+        lcd.setCursor(0, 1);
+        lcd.print("Score: ");
+        lcd.print(score);
+        lcd.print(" H:");
+        lcd.print(highScore);
+    }
+};
+
 // Instancias globales
 
 LEDDriver      leds(LED_PINS, 4);
 ButtonReader buttons(BUTTON_PINS,4);
 Buzzer buzzer(BUZZER_PIN);
+DisplayLCD display;
 
 void setup() {
     leds.begin();
     buttons.begin();
     buzzer.begin();
+    display.begin();
 }
 
 void loop() {}
